@@ -1,0 +1,3 @@
+/Users/chad/Exercism/csharp/resistor-color/obj/Debug/netcoreapp3.0/ResistorColor.csprojAssemblyReference.cache
+/Users/chad/Exercism/csharp/resistor-color/obj/Debug/netcoreapp3.0/ResistorColor.AssemblyInfoInputs.cache
+/Users/chad/Exercism/csharp/resistor-color/obj/Debug/netcoreapp3.0/ResistorColor.AssemblyInfo.cs

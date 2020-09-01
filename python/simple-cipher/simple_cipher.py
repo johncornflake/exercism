@@ -1,41 +1,55 @@
 import string
 from collections import deque
 import math
+import secrets
 
 class Cipher:
     def __init__(self, key=None):
-        self.alphabet = deque([letter for letter in string.ascii_lowercase])
+        self.key = key
+        self.key_list = None
 
     def encode(self, text):
-        pass
+        pairs = self.getPairs(text)
+        return self.rotater(pairs, decode=False)
 
     def decode(self, text):
-        pass
+        pairs = self.getPairs(text)
+        return self.rotater(pairs, decode=True)
 
-alphabet = deque([letter for letter in string.ascii_lowercase])
-key = 'abcdefghij' #1,2, [1,2,1,2,1]
-input = 'zzzzzzzzzz'
-expected_output = 'zabcdefghi'
+    def getCipher(self, text_length):
+        alphabet = self.generateAlphabet()
+        if self.key_list:
+            return self.key_list
+        elif self.key:
+            multiplier = math.ceil(text_length / len(self.key))
+            return [alphabet.index(i) for i in list(self.key)] * multiplier
+        else:
+            random_cipher = [secrets.choice(alphabet) for i in range(0,len)]
+            multiplier = math.ceil(text_length / len(random_cipher))
+            return random_ciper * multiplier
 
-input_list = list(input)
-print(input_list)
+    def generateAlphabet(self):
+        return deque([letter for letter in string.ascii_lowercase])
 
+    def rotater(self, pairs, decode=False):
+        alphabet = self.generateAlphabet()
+        res = ''
+        print(pairs)
+        for pair in pairs:
+            alphabet.rotate(alphabet.index(pair[0]) * -1)
+            if decode:
+                alphabet.rotate(pair[1])
+                res += alphabet[0]
+            else:
+                res += alphabet[pair[1]]
 
-alphabet = deque([letter for letter in string.ascii_lowercase])
-key_adj = [alphabet.index(c) for c in key] * math.ceil(len(input) / len(key))
-input_list = list(input)
-pairs = list(zip(input_list, key_adj))
+        return res
 
+    def getPairs(self, text):
+        key_list = self.getCipher(len(text))
+        return list(zip(list(text), key_list))
 
-print(pairs)
-
-# encode
-res = ''
-for p in pairs:
-    alphabet.rotate(alphabet.index(p[0]) * -1)
-    res += alphabet[p[1]]
-
-print(res)
-
-x = Cipher()
-print(x.alphabet)
+'''
+TO DO:
+    - Need to auto-generate cipher. Keylist should probably not be an attribute since it's only used for rotater, just pass it around.
+'''

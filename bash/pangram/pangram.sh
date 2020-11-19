@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-main () {
+usage () {
+  echo 'Usage: pangram.sh <string>';
+  exit 1;
+}
+
+pangram () {
   local alphabet=("a b c d e f g h i j k l m n o p q r s t u v w x y z")
   local input=$(echo $1 | sed 's/[^a-zA-Z]//g' | tr '[:upper:]' '[:lower:]')
   local is_pangram='true'
@@ -16,6 +21,11 @@ main () {
 
   echo $is_pangram
 
+}
+
+main () {
+  (( $# != 1 )) && usage;
+  pangram "$@"
 }
 
 main "$@"
